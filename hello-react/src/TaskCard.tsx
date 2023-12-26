@@ -1,3 +1,10 @@
+interface TaskCardProps{
+  title: string;
+  dueDate?:string;
+  completedAtDate?:string;
+  assigneeName:string;
+}
+
 const TaskCard = (props) => {
   console.log(props)  
   return (
@@ -10,7 +17,7 @@ const TaskCard = (props) => {
                 {props.dueDate && (
                   <p className="text-blue-500">Due date: {props.dueDate}</p>
                 )}
-
+              <p className='text-black-500'>{props.assigneeName}</p>
           </div>
     )
   }
