@@ -5,7 +5,7 @@ interface TaskCardProps{
   assigneeName:string;
 }
 
-const TaskCard = (props) => {
+const TaskCard = (props:TaskCardProps) => {
   console.log(props)  
   return (
         <div className="p-2 m-2 border-2 border-black-900">
@@ -15,9 +15,9 @@ const TaskCard = (props) => {
                 )}
 
                 {props.dueDate && (
-                  <p className="text-blue-500">Due date: {props.dueDate}</p>
+                  <p className="text-blue-500">Due on: {props.dueDate}</p>
                 )}
-              <p className='text-black-500'>{props.assigneeName}</p>
+              <p className='text-black-500'>Assignee: {props.assigneeName}</p>
           </div>
     )
   }
