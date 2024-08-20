@@ -19,8 +19,24 @@ class TaskList extends React.Component<Props,State>{
             {title: 'Four todo'},
         ]}
     }
+    componentDidMount(): void {
+        const tasks= [
+            {title: 'One one one todo'},
+            {title: 'Two two two todo'},
+           
+        ];
+        
+        this.setState((state,props) => (
+            {
+                tasks
+            }
+        ));
+        
+        
+        
+    }
     render(){
-        return <>{this.state.tasks.map((task)=>( <Task title={task.title}/>
+        return <>{this.state.tasks.map((task,idx)=>( <Task key={idx} title={task.title}/>
     ))}
     </>
     }
