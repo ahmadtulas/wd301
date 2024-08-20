@@ -1,6 +1,3 @@
-body{
-  background-color: red;
-}
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -42,4 +39,10 @@ body{
 
 .read-the-docs {
   color: #888;
+}
+.TaskItem {
+  /* border: 1px solid #DFDFDF; */
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-top: 12px;
 }
