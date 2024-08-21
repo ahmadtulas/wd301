@@ -37,7 +37,7 @@ addTask: React.FormEventHandler<HTMLFormElement> = (event) =>{
     };
     this.props.addTask(newTask);
     this.setState({title:""});
-    console.log("Submitted the Form");
+    console.log("Submitted the Form now");
     console.log(`${this.state.title}`);
    
 }
