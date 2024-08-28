@@ -25,6 +25,7 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
       <form onSubmit={this.addTask}>
         <input
           type="text"
+          id="todoTitle"
           className="border border-gray-300"
           value={this.state.title}
           onChange={this.titleChanged}
@@ -49,6 +50,7 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
         <button
           type="submit"
           className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+          id="addTaskButton"
         >
           Add item
         </button>
@@ -68,6 +70,11 @@ class TaskForm extends React.Component<TaskFormProps, TaskFormState> {
 
   addTask: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+    const { title, dueDate } = this.state;
+    if (title.trim() === '' || dueDate.trim() === '') {
+      alert('Title and Due Date are required fields.');
+      return;
+    }
     const newTask = {
       title: this.state.title,
       description: this.state.description,
