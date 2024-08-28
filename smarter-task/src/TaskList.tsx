@@ -12,7 +12,7 @@ class TaskList extends React.Component<Props, State> {
     return (
       <>
         {this.props.tasks.map((task, idx) => (
-          <Task key={idx} title={task.title} />
+          <Task key={idx} title={task.title} description={task.description} />
         ))}
       </>
     );
