@@ -8,7 +8,10 @@ const getStoredValue = <T>(key: string, defaultValue: T): T => {
   return defaultValue;
 };
 
-export const useLocalStorage = (key: string, defaultValue: any) => {
+export const useLocalStorage = <T>(
+  key: string,
+  defaultValue: T
+): [T, React.Dispatch<React.SetStateAction<T>>] => {
   const [value, setValue] = useState(() => {
     return getStoredValue(key, defaultValue);
   });
