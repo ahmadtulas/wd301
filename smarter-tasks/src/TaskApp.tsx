@@ -24,6 +24,14 @@ const TaskApp: React.FC<TaskAppProp> = () => {
     }));
   };
 
+  const deleteTask = (index: number) => {
+    const updatedTasks = taskAppState.tasks.filter((_, idx) => idx !== index);
+    setTaskAppState({
+      ...taskAppState,
+      tasks: updatedTasks,
+    });
+  };
+
   return (
     <div>
       <div className="container py-10 max-w-4xl mx-auto">
@@ -40,7 +48,7 @@ const TaskApp: React.FC<TaskAppProp> = () => {
               Pending
             </h1>
             <TaskForm addTask={addTask} />
-            <TaskList tasks={taskAppState.tasks} />
+            <TaskList tasks={taskAppState.tasks} deleteTask={deleteTask} />
           </div>
         </div>
       </div>
