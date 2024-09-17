@@ -42,12 +42,17 @@ const TaskApp: React.FC<TaskAppProp> = () => {
           <span className="font-bold">Project: </span>
           Graduation Final Year Project (Revamp college website)
         </h1>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="border border-slate-200 rounded-xl p-4">
+        <div className="flex gap-4">
+          <div className="flex-1 border border-slate-200 rounded-xl p-4">
             <h1 className="text-slate-500 text-xl font-bold text-center mb-2">
-              Pending
+              Add New Task
             </h1>
             <TaskForm addTask={addTask} />
+          </div>
+          <div className="flex-1 border border-slate-200 rounded-xl p-4">
+            <h1 className="text-slate-500 text-xl font-bold text-center mb-2">
+              Task List
+            </h1>
             <TaskList tasks={taskAppState.tasks} deleteTask={deleteTask} />
           </div>
         </div>

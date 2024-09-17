@@ -16,6 +16,7 @@ const TaskList = (props: TaskListProps) => {
             className='className="flex justify-between items-center p-4 border-b"'
           >
             <Task
+              id={task.id}
               title={task.title}
               description={task.description}
               dueDate={task.dueDate}

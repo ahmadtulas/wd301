@@ -1,13 +1,13 @@
 const Header = () => {
   return (
-    <nav className="bg-gray-800 py-4">
+    <nav className="bg-green-800 py-4">
       <div className="mx-auto px-4">
         <div className="flex justify-between">
           <div className="flex items-center w-1/3">
-            <a href="/home" className="ml-6 text-gray-300 hover:text-white">
+            <a href="/" className="ml-6 text-green-500 hover:text-white">
               Home
             </a>
-            <a href="/tasks" className="ml-6 text-gray-300 hover:text-white">
+            <a href="/tasks" className="ml-6 text-green-500 hover:text-white">
               Tasks
             </a>
           </div>

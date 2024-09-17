@@ -6,6 +6,7 @@ interface TaskFormProps {
 }
 
 interface TaskFormState {
+  id: string;
   title: string;
   description: string;
   dueDate: string;
@@ -13,6 +14,7 @@ interface TaskFormState {
 
 const TaskForm = (props: TaskFormProps) => {
   const [formState, setFormState] = useState<TaskFormState>({
+    id: '',
     title: '',
     description: '',
     dueDate: '',
@@ -38,44 +40,79 @@ const TaskForm = (props: TaskFormProps) => {
       alert('Title and Due Date are required fields.');
       return;
     }
-    props.addTask(formState);
-    setFormState({ title: '', description: '', dueDate: '' });
+    const randomId = `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    const newTask: TaskItem = { ...formState, id: randomId };
+
+    props.addTask(newTask);
+
+    setFormState({ id: '', title: '', description: '', dueDate: '' });
   };
 
   return (
     <>
-      <form onSubmit={addTask}>
-        <input
-          type="text"
-          id="todoTitle"
-          className="border border-gray-300"
-          value={formState.title}
-          onChange={titleChanged}
-          placeholder="Task Title"
-        />
-        <input
-          type="text"
-          id="todoDescription"
-          className="border border-black-400"
-          value={formState.description}
-          onChange={descriptionChanged}
-          placeholder="Task Description"
-        />
-        <input
-          type="date"
-          id="todoDueDate"
-          className="border border-blue-600"
-          value={formState.dueDate}
-          onChange={dueDateChanged}
-          placeholder="Due Date"
-        />
-        <button
-          type="submit"
-          className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
-          id="addTaskButton"
-        >
-          Add item
-        </button>
+      <form
+        onSubmit={addTask}
+        className="space-y-4 p-6 bg-white shadow-lg rounded-lg max-w-md mx-auto"
+      >
+        <div>
+          <label
+            htmlFor="todoTitle"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Task Title
+          </label>
+          <input
+            type="text"
+            id="todoTitle"
+            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            value={formState.title}
+            onChange={titleChanged}
+            placeholder="Enter task title"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="todoDescription"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Task Description
+          </label>
+          <input
+            type="text"
+            id="todoDescription"
+            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            value={formState.description}
+            onChange={descriptionChanged}
+            placeholder="Enter task description"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="todoDueDate"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Due Date
+          </label>
+          <input
+            type="date"
+            id="todoDueDate"
+            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            value={formState.dueDate}
+            onChange={dueDateChanged}
+          />
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="addTaskButton"
+          >
+            Add Task
+          </button>
+        </div>
       </form>
     </>
   );
