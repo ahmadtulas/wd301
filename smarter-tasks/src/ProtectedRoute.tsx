@@ -5,10 +5,13 @@ export default function ProtectedRoute({
 }: {
   children: JSX.Element;
 }) {
-  const authenticated = localStorage.getItem('authenticated');
-  if (authenticated === 'true') {
-    return <>{children}</>;
-  } else {
-    return <Navigate to="/signin" />;
+  const isAuthenticated = localStorage.getItem('authenticated') === 'true';
+
+  // If the user is not authenticated, redirect to the SignIn page
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
   }
+
+  // If the user is authenticated, render the children components (protected routes)
+  return children;
 }

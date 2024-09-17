@@ -1,10 +1,13 @@
 import Header from './components/Header';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 const Layout = () => {
+  const location = useLocation();
+
   return (
     <div>
-      <Header />
+      {/* Conditionally render Header if not on /notfound route */}
+      {location.pathname !== '/notfound' && <Header />}
       <main>
         <Outlet />
       </main>
