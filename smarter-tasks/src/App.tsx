@@ -10,6 +10,7 @@ import TaskDetailsPage from './pages/TaskDetailsPage';
 import Signin from './pages/Signin';
 import ProtectedRoute from './ProtectedRoute';
 import Notfound from './pages/Notfound';
+import ReactPlayground from './ReactPlayground';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         element: <TaskDetailsPage />,
       },
     ],
+  },
+  {
+    path: '/play',
+    element: <ReactPlayground />,
   },
   {
     path: '/notfound',
