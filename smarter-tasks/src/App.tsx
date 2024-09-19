@@ -25,10 +25,6 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: '/',
-    element: <Navigate to="/signin" replace />,
-  },
-  {
     path: '/signin',
     element: <Signin />,
   },
