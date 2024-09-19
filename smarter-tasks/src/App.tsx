@@ -11,8 +11,19 @@ import Signin from './pages/Signin';
 import ProtectedRoute from './ProtectedRoute';
 import Notfound from './pages/Notfound';
 import ReactPlayground from './ReactPlayground';
+import Form from './Form';
+
+import Signup from './pages/signup';
 
 const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Signup />,
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
+  },
   {
     path: '/',
     element: <Navigate to="/signin" replace />,
@@ -41,6 +52,10 @@ const router = createBrowserRouter([
         element: <TaskDetailsPage />,
       },
     ],
+  },
+  {
+    path: '/form',
+    element: <Form />,
   },
   {
     path: '/play',
