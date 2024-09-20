@@ -9,6 +9,7 @@ import Notfound from './pages/Notfound';
 
 import Signup from './pages/signup';
 import Signin from './pages/signin';
+import Dashboard from './pages/dashboard';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
   {
     path: '/notfound',
     element: <Notfound />,
+  },
+  {
+    path: '/dashboard',
+    element: (
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '*',
