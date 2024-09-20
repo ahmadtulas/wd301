@@ -24,7 +24,7 @@ const SignupForm: React.FC = () => {
         }),
       });
       const data = await response.json();
-
+      console.log('API response data:', data);
       localStorage.setItem('authToken', data.token);
 
       if (!response.ok) {
