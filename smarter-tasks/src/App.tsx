@@ -3,15 +3,9 @@ import {
   RouterProvider,
   Navigate,
 } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import TaskListPage from './pages/TaskListPage';
-import Layout from './Layout';
-import TaskDetailsPage from './pages/TaskDetailsPage';
-//import Signin from './pages/Signin';
+
 import ProtectedRoute from './ProtectedRoute';
 import Notfound from './pages/Notfound';
-import ReactPlayground from './ReactPlayground';
-import Form from './Form';
 
 import Signup from './pages/signup';
 import Signin from './pages/signin';
@@ -28,35 +22,6 @@ const router = createBrowserRouter([
   {
     path: '/signin',
     element: <Signin />,
-  },
-  {
-    element: (
-      <ProtectedRoute>
-        <Layout />
-      </ProtectedRoute>
-    ),
-    children: [
-      {
-        path: 'home',
-        element: <HomePage />,
-      },
-      {
-        path: '/tasks',
-        element: <TaskListPage />,
-      },
-      {
-        path: 'tasks/:id',
-        element: <TaskDetailsPage />,
-      },
-    ],
-  },
-  {
-    path: '/form',
-    element: <Form />,
-  },
-  {
-    path: '/play',
-    element: <ReactPlayground />,
   },
   {
     path: '/notfound',
