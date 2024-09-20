@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { API_ENDPOINT } from '../../config/constants';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm: React.FC = () => {
+  const navigate = useNavigate();
   const [organisationName, setOrganisationName] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -30,6 +32,7 @@ const SignupForm: React.FC = () => {
       }
       console.log('Sign-up successful');
       localStorage.setItem('authenticated', 'true');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Sign-up failed:', error);
     }
