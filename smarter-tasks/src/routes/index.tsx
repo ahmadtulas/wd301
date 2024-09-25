@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import NotFound from '../pages/notfound';
+import NotFound from '../pages/Notfound';
 import Signin from '../pages/signin';
 import Signup from '../pages/signup';
 
