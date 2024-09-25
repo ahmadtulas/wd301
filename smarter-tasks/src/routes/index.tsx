@@ -4,7 +4,7 @@ import Signin from '../pages/signin';
 import Signup from '../pages/signup';
 
 import AccountLayout from '../layouts/account';
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoutes from './ProtectedRoutes';
 import Logout from '../pages/logout';
 import Projects from '../pages/projects';
 import MembersPage from '../pages/members';
@@ -27,9 +27,9 @@ const router = createBrowserRouter([
   {
     path: 'account',
     element: (
-      <ProtectedRoute>
+      <ProtectedRoutes>
         <AccountLayout />
-      </ProtectedRoute>
+      </ProtectedRoutes>
     ),
     children: [
       { index: true, element: <Navigate to="/account/projects" replace /> },
