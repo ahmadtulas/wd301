@@ -43,6 +43,7 @@ const SigninForm: React.FC = () => {
         </label>
         <input
           type="email"
+          id="email"
           {...register('email', { required: 'Email is required' })}
           className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-500 focus:shadow-outline-green ${errors.email ? 'border-red-500' : ''}`}
         />
@@ -56,6 +57,7 @@ const SigninForm: React.FC = () => {
         </label>
         <input
           type="password"
+          id="password"
           {...register('password', { required: 'Password is required' })}
           className={`w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-green-500 focus:shadow-outline-green ${errors.password ? 'border-red-500' : ''}`}
         />
