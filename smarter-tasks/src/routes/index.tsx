@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-
+import NotFound from '../pages/notfound';
 import Signin from '../pages/signin';
 import Signup from '../pages/signup';
 
@@ -7,7 +7,7 @@ import AccountLayout from '../layouts/account';
 import ProtectedRoute from './ProtectedRoute';
 import Logout from '../pages/logout';
 import Projects from '../pages/projects';
-import Members from '../pages/members';
+import MembersPage from '../pages/members';
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/account/projects" replace /> },
@@ -39,9 +39,13 @@ const router = createBrowserRouter([
       },
       {
         path: 'members',
-        element: <Members />,
+        element: <MembersPage />,
       },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFound />, // Add this line for 404 page
   },
 ]);
 export default router;

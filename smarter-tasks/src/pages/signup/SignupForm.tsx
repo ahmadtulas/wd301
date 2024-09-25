@@ -1,37 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { API_ENDPOINT } from '../../config/constants';
 import { useNavigate } from 'react-router-dom';
 
 const SignupForm: React.FC = () => {
   const navigate = useNavigate();
-  const [organisationName, setOrganisationName] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const onSubmit = async (data: {
+    organisationName: string;
+    userName: string;
+    userEmail: string;
+    userPassword: string;
+  }) => {
     try {
       const response = await fetch(`${API_ENDPOINT}/organisations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: organisationName,
-          user_name: userName,
-          email: userEmail,
-          password: userPassword,
+          name: data.organisationName,
+          user_name: data.userName,
+          email: data.userEmail,
+          password: data.userPassword,
         }),
       });
-      const data = await response.json();
-      console.log('API response data:', data);
-      localStorage.setItem('authToken', data.token);
+
+      const responseData = await response.json();
+      console.log('API response data:', responseData);
+      localStorage.setItem('authToken', responseData.token);
 
       if (!response.ok) {
         throw new Error('Sign-up failed');
       }
+
       console.log('Sign-up successful');
-      localStorage.setItem('userData', JSON.stringify(data.user));
+      localStorage.setItem('userData', JSON.stringify(responseData.user));
       localStorage.setItem('authenticated', 'true');
       navigate('/account');
     } catch (error) {
@@ -41,7 +48,7 @@ const SignupForm: React.FC = () => {
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md"
     >
       <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
@@ -57,12 +64,17 @@ const SignupForm: React.FC = () => {
         </label>
         <input
           type="text"
-          name="organisationName"
+          {...register('organisationName', {
+            required: 'Organisation name is required',
+          })}
           id="organisationName"
-          value={organisationName}
-          onChange={(e) => setOrganisationName(e.target.value)}
-          className="w-full border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-green-500 focus:border-green-500"
+          className={`w-full border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-green-500 focus:border-green-500 ${errors.organisationName ? 'border-red-500' : ''}`}
         />
+        {errors.organisationName && (
+          <span className="text-red-500">
+            {errors.organisationName.message}
+          </span>
+        )}
       </div>
 
       <div className="mb-4">
@@ -74,12 +86,13 @@ const SignupForm: React.FC = () => {
         </label>
         <input
           type="text"
-          name="userName"
+          {...register('userName', { required: 'User name is required' })}
           id="userName"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          className="w-full border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-green-500 focus:border-green-500"
+          className={`w-full border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-green-500 focus:border-green-500 ${errors.userName ? 'border-red-500' : ''}`}
         />
+        {errors.userName && (
+          <span className="text-red-500">{errors.userName.message}</span>
+        )}
       </div>
 
       <div className="mb-4">
@@ -91,12 +104,13 @@ const SignupForm: React.FC = () => {
         </label>
         <input
           type="email"
-          name="userEmail"
+          {...register('userEmail', { required: 'Email is required' })}
           id="userEmail"
-          value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
-          className="w-full border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-green-500 focus:border-green-500"
+          className={`w-full border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-green-500 focus:border-green-500 ${errors.userEmail ? 'border-red-500' : ''}`}
         />
+        {errors.userEmail && (
+          <span className="text-red-500">{errors.userEmail.message}</span>
+        )}
       </div>
 
       <div className="mb-6">
@@ -108,12 +122,13 @@ const SignupForm: React.FC = () => {
         </label>
         <input
           type="password"
-          name="userPassword"
+          {...register('userPassword', { required: 'Password is required' })}
           id="userPassword"
-          value={userPassword}
-          onChange={(e) => setUserPassword(e.target.value)}
-          className="w-full border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-green-500 focus:border-green-500"
+          className={`w-full border border-gray-300 rounded-md py-2 px-4 text-gray-700 focus:ring-green-500 focus:border-green-500 ${errors.userPassword ? 'border-red-500' : ''}`}
         />
+        {errors.userPassword && (
+          <span className="text-red-500">{errors.userPassword.message}</span>
+        )}
       </div>
 
       <button

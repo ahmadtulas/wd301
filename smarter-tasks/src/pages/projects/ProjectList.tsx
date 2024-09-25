@@ -18,11 +18,11 @@ export default function ProjectListItems() {
   console.log(projects);
 
   if (projects.length === 0 && isLoading) {
+    console.log('list empty');
     return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>{errorMessage}</span>;
+  } else if (isError) {
+    console.log('error');
+    return <span>{String(errorMessage)}</span>;
   }
 
   return (

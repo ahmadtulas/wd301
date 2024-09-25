@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { RouterProvider } from 'react-router-dom';
-
 import { ThemeContext } from './context/theme';
-
-import router from './routes';
 import { ProjectsProvider } from './context/projects/context';
+import { MembersProvider } from './context/members/context'; // Add this import
+import router from './routes';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
@@ -13,10 +13,15 @@ const App = () => {
       className={`h-screen w-full mx-auto py-2 ${theme === 'dark' ? 'dark' : ''}`}
     >
       {theme}
-      <ProjectsProvider>
-        <RouterProvider router={router} />
-      </ProjectsProvider>
-      {/* <TaskApp /> */}
+      <ErrorBoundary>
+        <ProjectsProvider>
+          <MembersProvider>
+            {' '}
+            {/* Wrap with MembersProvider */}
+            <RouterProvider router={router} />
+          </MembersProvider>
+        </ProjectsProvider>
+      </ErrorBoundary>
     </div>
   );
 };
