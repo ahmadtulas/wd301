@@ -1,5 +1,6 @@
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { API_ENDPOINT } from '../../config/constants';
+
 interface Project {
   id: number;
   name: string;
