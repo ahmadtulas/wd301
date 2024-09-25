@@ -1,19 +1,6 @@
-import { useEffect } from 'react';
-import {
-  useProjectsState,
-  useProjectsDispatch,
-} from '../../context/projects/context';
-import { fetchProjects } from '../../context/projects/actions';
+import { useProjectsState } from '../../context/projects/context';
 export default function ProjectListItems() {
   let state: any = useProjectsState();
-  const dispatch = useProjectsDispatch();
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchProjects(dispatch);
-    };
-    fetchData();
-  }, [dispatch]);
-
   const { projects, isLoading, isError, errorMessage } = state;
   console.log(projects);
 
