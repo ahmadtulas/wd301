@@ -1,4 +1,3 @@
-import React from 'react';
 import { deleteMember } from '../../context/members/actions';
 
 const MemberListItems = ({ members, dispatch }: any) => {

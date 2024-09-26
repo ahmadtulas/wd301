@@ -8,6 +8,8 @@ import ProtectedRoutes from './ProtectedRoutes';
 import Logout from '../pages/logout';
 import Projects from '../pages/projects';
 import MembersPage from '../pages/members';
+import { Outlet } from 'react-router-dom';
+import ProjectContainer from '../pages/projects/ProjectContainer';
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/account/projects" replace /> },
@@ -35,7 +37,37 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="/account/projects" replace /> },
       {
         path: 'projects',
-        element: <Projects />,
+        element: <ProjectContainer />,
+        children: [
+          { index: true, element: <Projects /> },
+          {
+            path: ':projectID',
+            element: (
+              <>
+                Show project details <Outlet />
+              </>
+            ),
+            children: [
+              { index: true, element: <></> },
+              {
+                path: 'tasks',
+                children: [
+                  { index: true, element: <Navigate to="../" replace /> },
+                  {
+                    path: 'new',
+                    element: <>Show Modal window to create a task</>,
+                  },
+                  {
+                    path: ':taskID',
+                    children: [
+                      { index: true, element: <>Show Task Details</> },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       {
         path: 'members',
