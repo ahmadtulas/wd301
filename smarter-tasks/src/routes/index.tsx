@@ -10,6 +10,7 @@ import Projects from '../pages/projects';
 import MembersPage from '../pages/members';
 import { Outlet } from 'react-router-dom';
 import ProjectContainer from '../pages/projects/ProjectContainer';
+import ProjectDetails from '../pages/project_details/ProjectDetails';
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/account/projects" replace /> },
@@ -42,11 +43,7 @@ const router = createBrowserRouter([
           { index: true, element: <Projects /> },
           {
             path: ':projectID',
-            element: (
-              <>
-                Show project details <Outlet />
-              </>
-            ),
+            element: <ProjectDetails />,
             children: [
               { index: true, element: <></> },
               {
