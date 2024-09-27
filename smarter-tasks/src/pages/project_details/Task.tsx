@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { TaskDetails } from '../../context/task/types';
 import './TaskCard.css';
 import { Link } from 'react-router-dom';
+import { Draggable } from 'react-beautiful-dnd';
+import { deleteTask } from '../../context/task/actions';
+import { useParams } from 'react-router-dom';
+import { useTasksDispatch } from '../../context/task/context';
 
-const Task: React.FC<React.PropsWithChildren<{ task: TaskDetails }>> = (
-  props
-) => {
+const Task = forwardRef<
+  HTMLDivElement,
+  React.PropsWithChildren<{ task: TaskDetails }>
+>((props, ref) => {
+  const taskDispatch = useTasksDispatch();
+  const { projectID } = useParams();
   const { task } = props;
   return (
-    <div className="m-2 flex">
+    <div ref={ref} {...props} className="m-2 flex">
       <Link
         className="TaskItem w-full shadow-md border border-slate-100 bg-white"
         to={`tasks/${task.id}`}
@@ -26,7 +33,10 @@ const Task: React.FC<React.PropsWithChildren<{ task: TaskDetails }>> = (
           </div>
           <button
             className="deleteTaskButton cursor-pointer h-4 w-4 rounded-full my-5 mr-5"
-            onClick={(event) => {}}
+            onClick={(event) => {
+              event.preventDefault();
+              deleteTask(taskDispatch, projectID ?? '', task);
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -47,14 +57,26 @@ const Task: React.FC<React.PropsWithChildren<{ task: TaskDetails }>> = (
       </Link>
     </div>
   );
-};
+});
 
 const Container = (
   props: React.PropsWithChildren<{
     task: TaskDetails;
+    index: number;
   }>
 ) => {
-  return <Task task={props.task} />;
+  return (
+    <Draggable index={props.index} draggableId={`${props.task.id}`}>
+      {(provided) => (
+        <Task
+          task={props.task}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        />
+      )}
+    </Draggable>
+  );
 };
 
 export default Container;
