@@ -10,7 +10,8 @@ import Projects from '../pages/projects';
 import MembersPage from '../pages/members';
 import { Outlet } from 'react-router-dom';
 import ProjectContainer from '../pages/projects/ProjectContainer';
-import ProjectDetails from '../pages/project_details/ProjectDetails';
+import ProjectDetailsIndex from '../pages/project_details';
+import NewTask from '../pages/tasks/NewTask';
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/account/projects" replace /> },
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
           { index: true, element: <Projects /> },
           {
             path: ':projectID',
-            element: <ProjectDetails />,
+            element: <ProjectDetailsIndex />,
             children: [
               { index: true, element: <></> },
               {
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
                   { index: true, element: <Navigate to="../" replace /> },
                   {
                     path: 'new',
-                    element: <>Show Modal window to create a task</>,
+                    element: <NewTask />,
                   },
                   {
                     path: ':taskID',

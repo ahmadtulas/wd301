@@ -1,60 +1,50 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useProjectsState } from '../../context/projects/context';
+import { useTasksDispatch } from '../../context/task/context';
+import { addTask } from '../../context/task/actions';
+import { TaskDetailsPayload } from '../../context/task/types';
 
-// First I'll import the addProject function
-import { addProject } from '../../context/projects/actions';
+const NewTask = () => {
+  console.log('newTask method Call');
+  let [isOpen, setIsOpen] = useState(true);
 
-// Then I'll import the useProjectsDispatch hook from projects context
-import { useProjectsDispatch } from '../../context/projects/context';
-type Inputs = {
-  name: string;
-};
-const NewProject = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  let { projectID } = useParams();
+  let navigate = useNavigate();
 
-  // Next, I'll add a new state to handle errors.
-  const [error, setError] = useState(null);
-
-  // Then I'll call the useProjectsDispatch function to get the dispatch function
-  // for projects
-  const dispatchProjects = useProjectsDispatch();
+  // Use react-hook-form to create form submission handler and state.
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
-  const closeModal = () => {
+  } = useForm<TaskDetailsPayload>();
+  const projectState = useProjectsState();
+  const taskDispatch = useTasksDispatch();
+
+  // We do some sanity checks to make sure the `projectID` passed is a valid one
+  const selectedProject = projectState?.projects.filter(
+    (project) => `${project.id}` === projectID
+  )?.[0];
+  if (!selectedProject) {
+    return <>No such Project!</>;
+  }
+  function closeModal() {
     setIsOpen(false);
-  };
-  const openModal = () => {
-    setIsOpen(true);
-  };
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const { name } = data;
-
-    // Next, I'll call the addProject function with two arguments:
-    //`dispatchProjects` and an object with `name` attribute.
-    // As it's an async function, we will await for the response.
-    const response = await addProject(dispatchProjects, { name });
-
-    // Then depending on response, I'll either close the modal...
-    if (response.ok) {
-      setIsOpen(false);
-    } else {
-      // Or I'll set the error.
-      setError(response.error as React.SetStateAction<null>);
+    navigate('../../');
+  }
+  const onSubmit: SubmitHandler<TaskDetailsPayload> = async (data) => {
+    try {
+      // Invoke the actual API and create a task.
+      addTask(taskDispatch, projectID ?? '', data);
+      closeModal();
+    } catch (error) {
+      console.error('Operation failed:', error);
     }
   };
   return (
     <>
-      <button
-        type="button"
-        onClick={openModal}
-        className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-opacity-75"
-      >
-        New Project
-      </button>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -84,30 +74,45 @@ const NewProject = () => {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Create new project
+                    Create new Task
                   </Dialog.Title>
                   <div className="mt-2">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      {/* I'll show the error, if it exists. */}
-                      {error && <span>{error}</span>}
                       <input
                         type="text"
-                        placeholder="Enter project name..."
+                        required
+                        placeholder="Enter title"
                         autoFocus
-                        {...register('name', { required: true })}
-                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-green-500 focus:shadow-outline-green ${
-                          errors.name ? 'border-red-500' : ''
-                        }`}
+                        id="title"
+                        {...register('title', { required: true })}
+                        className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-green-500 focus:shadow-outline-green"
                       />
-                      {errors.name && <span>This field is required</span>}
+                      <input
+                        type="text"
+                        required
+                        placeholder="Enter description"
+                        autoFocus
+                        id="description"
+                        {...register('description', { required: true })}
+                        className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-green-500 focus:shadow-outline-green"
+                      />
+                      <input
+                        type="date"
+                        required
+                        placeholder="Enter due date"
+                        autoFocus
+                        id="dueDate"
+                        {...register('dueDate', { required: true })}
+                        className="w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-green-500 focus:shadow-outline-green"
+                      />
                       <button
                         type="submit"
+                        id="newTaskSubmitBtn"
                         className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       >
                         Submit
                       </button>
                       <button
-                        type="button" // Change to "button" to prevent form submission
                         onClick={closeModal}
                         className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       >
@@ -124,4 +129,4 @@ const NewProject = () => {
     </>
   );
 };
-export default NewProject;
+export default NewTask;
